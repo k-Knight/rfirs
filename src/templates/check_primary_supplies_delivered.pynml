@@ -4,7 +4,152 @@
 /* Production change evaluated monthly */
 /* =================================== */
 <tal:block define="perm_storage industry.perm_storage">
+    switch(FEAT_INDUSTRIES, SELF, ${industry.id}_init_perm_storage, [
+        STORE_PERM(0, ${perm_storage.var_transported_ppp_month_1}),
+        STORE_PERM(0, ${perm_storage.var_transported_pp_month_1}),
+        STORE_PERM(0, ${perm_storage.var_transported_p_month_1}),
+
+        STORE_PERM(0, ${perm_storage.var_transported_ppp_month_2}),
+        STORE_PERM(0, ${perm_storage.var_transported_pp_month_2}),
+        STORE_PERM(0, ${perm_storage.var_transported_p_month_2}),
+
+        STORE_PERM(0, ${perm_storage.var_num_supplies_delivered_bef_last}),
+        STORE_PERM(0, ${perm_storage.var_num_supplies_delivered_last}),
+        STORE_PERM(0, ${perm_storage.var_num_supplies_delivered}),
+
+        STORE_PERM(100, ${perm_storage.var_current_supplies_prod_factor_1}),
+        STORE_PERM(100, ${perm_storage.var_current_supplies_prod_factor_2})
+    ]) {
+        return randomise_primary_production_on_build;
+    }
+
     switch(FEAT_INDUSTRIES, SELF, ${industry.id}_monthly_update, [
+        STORE_PERM(LOAD_PERM(${perm_storage.var_transported_pp_month_1}), ${perm_storage.var_transported_ppp_month_1}),
+        STORE_PERM(LOAD_PERM(${perm_storage.var_transported_p_month_1}), ${perm_storage.var_transported_pp_month_1}),
+        STORE_PERM(transported_last_month_pct_1, ${perm_storage.var_transported_p_month_1}),
+
+        STORE_PERM(LOAD_PERM(${perm_storage.var_transported_pp_month_2}), ${perm_storage.var_transported_ppp_month_2}),
+        STORE_PERM(LOAD_PERM(${perm_storage.var_transported_p_month_2}), ${perm_storage.var_transported_pp_month_2}),
+        STORE_PERM(transported_last_month_pct_2, ${perm_storage.var_transported_p_month_2}),
+
+        STORE_TEMP(
+            LOAD_PERM(${perm_storage.var_num_supplies_delivered}) +
+            LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}) +
+            LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_last}),
+            8
+        ),
+
+        STORE_TEMP(
+            (LOAD_TEMP(8) >= (${industry.supply_requirements[2]} * primary_level2_requirement)) ? 150 :
+            (LOAD_TEMP(8) >= (${industry.supply_requirements[2]} * primary_level1_requirement)) ? 100 : 25,
+            9
+        ),
+
+        STORE_TEMP(
+            (random_bits % 2),
+            8
+        ),
+
+        STORE_TEMP(
+            LOAD_PERM(${perm_storage.var_transported_p_month_1}) +
+            LOAD_PERM(${perm_storage.var_transported_pp_month_1}) +
+            LOAD_PERM(${perm_storage.var_transported_ppp_month_1}),
+            10
+        ),
+
+        STORE_TEMP(
+            LOAD_PERM(${perm_storage.var_transported_p_month_2}) +
+            LOAD_PERM(${perm_storage.var_transported_pp_month_2}) +
+            LOAD_PERM(${perm_storage.var_transported_ppp_month_2}),
+            11
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(10) / 3 >= LOAD_PERM(${perm_storage.var_transported_p_month_1}) ?
+            LOAD_TEMP(10) :
+            LOAD_PERM(${perm_storage.var_transported_p_month_1}),
+            10
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(11) / 3 >= LOAD_PERM(${perm_storage.var_transported_p_month_2}) ?
+            LOAD_TEMP(11) :
+            LOAD_PERM(${perm_storage.var_transported_p_month_2}),
+            11
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(10) >= 80 ? (LOAD_TEMP(8) == 1 ? 10 :  2) :
+            LOAD_TEMP(10) >= 70 ? (LOAD_TEMP(8) == 1 ?  8 :  2) :
+            LOAD_TEMP(10) >= 60 ? (LOAD_TEMP(8) == 1 ? 10 :  5) :
+            LOAD_TEMP(10) >= 50 ? (LOAD_TEMP(8) == 1 ?  5 :  5) :
+            LOAD_TEMP(10) >= 40 ? (LOAD_TEMP(8) == 1 ?  6 :  9) :
+                                  (LOAD_TEMP(8) == 1 ?  5 : 10),
+            10
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(11) >= 80 ? (LOAD_TEMP(8) == 1 ? 10 :  2) :
+            LOAD_TEMP(11) >= 70 ? (LOAD_TEMP(8) == 1 ?  8 :  2) :
+            LOAD_TEMP(11) >= 60 ? (LOAD_TEMP(8) == 1 ? 10 :  5) :
+            LOAD_TEMP(11) >= 50 ? (LOAD_TEMP(8) == 1 ?  5 :  5) :
+            LOAD_TEMP(11) >= 40 ? (LOAD_TEMP(8) == 1 ?  6 :  9) :
+                                  (LOAD_TEMP(8) == 1 ?  5 : 10),
+            11
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(8) == 1 ? (LOAD_TEMP(10) * LOAD_TEMP(9)) / 100 : LOAD_TEMP(10),
+            10
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(8) == 1 ? (LOAD_TEMP(11) * LOAD_TEMP(9)) / 100 : LOAD_TEMP(11),
+            11
+        ),
+
+        STORE_TEMP(
+            (random_bits % 100) >= 49 ? LOAD_TEMP(10) : LOAD_TEMP(10) / 2,
+            10
+        ),
+
+        STORE_TEMP(
+            (random_bits % 100) >= 49 ? LOAD_TEMP(11) : LOAD_TEMP(11) / 2,
+            10
+        ),
+
+        STORE_TEMP(
+            (LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) * LOAD_TEMP(10)) / 100,
+            10
+        ),
+
+        STORE_TEMP(
+            (LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) * LOAD_TEMP(11)) / 100,
+            11
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(8) == 1 ? LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) + LOAD_TEMP(10) :
+                                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) - LOAD_TEMP(10),
+            10
+        ),
+
+        STORE_TEMP(
+            LOAD_TEMP(8) == 1 ? LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) + LOAD_TEMP(11) :
+                                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) - LOAD_TEMP(11),
+            11
+        ),
+
+        STORE_PERM(
+            LOAD_TEMP(10) <= 85 ? 85 : (LOAD_TEMP(10) >= 10000 ? 10000 : LOAD_TEMP(10)),
+            ${perm_storage.var_current_supplies_prod_factor_1}
+        ),
+
+        STORE_PERM(
+            LOAD_TEMP(11) <= 85 ? 85 : (LOAD_TEMP(11) >= 10000 ? 10000 : LOAD_TEMP(11)),
+            ${perm_storage.var_current_supplies_prod_factor_2}
+        ),
+
         STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}), ${perm_storage.var_num_supplies_delivered_bef_last}),
         STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered}), ${perm_storage.var_num_supplies_delivered_last}),
         STORE_PERM(0, ${perm_storage.var_num_supplies_delivered})
