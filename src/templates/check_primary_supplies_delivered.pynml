@@ -17,13 +17,23 @@
         STORE_PERM(0, ${perm_storage.var_num_supplies_delivered_last}),
         STORE_PERM(0, ${perm_storage.var_num_supplies_delivered}),
 
-        STORE_PERM(100, ${perm_storage.var_current_supplies_prod_factor_1}),
-        STORE_PERM(100, ${perm_storage.var_current_supplies_prod_factor_2})
+        STORE_TEMP(randomise_primary_production_on_build() * 20, 8),
+
+        STORE_PERM(LOAD_TEMP(8), ${perm_storage.var_current_supplies_prod_factor_1}),
+        STORE_PERM(1000, ${perm_storage.var_current_supplies_prod_factor_2})
     ]) {
-        return randomise_primary_production_on_build;
+        return 4;
     }
 
     switch(FEAT_INDUSTRIES, SELF, ${industry.id}_monthly_update, [
+        // random variables
+        STORE_TEMP((extra_callback_info2 & 0x0000ffff) % 0x0100, 9),
+        STORE_TEMP((extra_callback_info2 >> 16) % 0x0100, 10),
+
+        // =======================================================
+        // === updating transported cargo history for 3 months ===
+        // =======================================================
+
         STORE_PERM(LOAD_PERM(${perm_storage.var_transported_pp_month_1}), ${perm_storage.var_transported_ppp_month_1}),
         STORE_PERM(LOAD_PERM(${perm_storage.var_transported_p_month_1}), ${perm_storage.var_transported_pp_month_1}),
         STORE_PERM(transported_last_month_pct_1, ${perm_storage.var_transported_p_month_1}),
@@ -32,21 +42,21 @@
         STORE_PERM(LOAD_PERM(${perm_storage.var_transported_p_month_2}), ${perm_storage.var_transported_pp_month_2}),
         STORE_PERM(transported_last_month_pct_2, ${perm_storage.var_transported_p_month_2}),
 
+
+
+        // ==============================================
+        // === determinign appropriate growth thrends ===
+        // ==============================================
+
         STORE_TEMP(
             LOAD_PERM(${perm_storage.var_num_supplies_delivered}) +
             LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}) +
             LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_last}),
             8
         ),
-
         STORE_TEMP(
             (LOAD_TEMP(8) >= (${industry.supply_requirements[2]} * primary_level2_requirement)) ? 150 :
-            (LOAD_TEMP(8) >= (${industry.supply_requirements[2]} * primary_level1_requirement)) ? 100 : 25,
-            9
-        ),
-
-        STORE_TEMP(
-            (random_bits % 2),
+            (LOAD_TEMP(8) >= (${industry.supply_requirements[2]} * primary_level1_requirement)) ? 100 : 0,
             8
         ),
 
@@ -54,101 +64,151 @@
             LOAD_PERM(${perm_storage.var_transported_p_month_1}) +
             LOAD_PERM(${perm_storage.var_transported_pp_month_1}) +
             LOAD_PERM(${perm_storage.var_transported_ppp_month_1}),
-            10
+            11
         ),
-
         STORE_TEMP(
             LOAD_PERM(${perm_storage.var_transported_p_month_2}) +
             LOAD_PERM(${perm_storage.var_transported_pp_month_2}) +
             LOAD_PERM(${perm_storage.var_transported_ppp_month_2}),
+            12
+        ),
+
+        //STORE_TEMP(
+        //    max(LOAD_TEMP(11) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_1})),
+        //    11
+        //),
+        //STORE_TEMP(
+        //    max(LOAD_TEMP(12) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_2})),
+        //    12
+        //),
+        STORE_TEMP(
+            90,
             11
         ),
-
+        //STORE_TEMP(
+        //    max(LOAD_TEMP(12) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_2})),
+        //    12
+        //),
         STORE_TEMP(
-            LOAD_TEMP(10) / 3 >= LOAD_PERM(${perm_storage.var_transported_p_month_1}) ?
-            LOAD_TEMP(10) :
-            LOAD_PERM(${perm_storage.var_transported_p_month_1}),
-            10
+            90,
+            12
         ),
 
+        // getting proportions of positive/negative/stay changes to caculate probabilities
         STORE_TEMP(
-            LOAD_TEMP(11) / 3 >= LOAD_PERM(${perm_storage.var_transported_p_month_2}) ?
-            LOAD_TEMP(11) :
-            LOAD_PERM(${perm_storage.var_transported_p_month_2}),
+            LOAD_TEMP(8) != 0 ? (
+                (LOAD_TEMP(11) >= 90) ? (1 << 16) + (0xae << 8) + 0x1f :
+                (LOAD_TEMP(11) >= 80) ? (1 << 16) + (0xb8 << 8) + 0x1b :
+                (LOAD_TEMP(11) >= 70) ? (1 << 16) + (0xc3 << 8) + 0x17 :
+                (LOAD_TEMP(11) >= 60) ? (1 << 16) + (0xcf << 8) + 0x12 :
+                (LOAD_TEMP(11) >= 50) ? (0 << 16) + (0x99 << 8) + 0x64 :
+                (LOAD_TEMP(11) >= 40) ? (2 << 16) + (0x89 << 8) + 0x2e :
+                                        (2 << 16) + (0x55 << 8) + 0x42
+            ) : (
+                (LOAD_TEMP(11) >= 90) ? (1 << 16) + (0x3f << 8) + 0x4b :
+                (LOAD_TEMP(11) >= 80) ? (1 << 16) + (0x63 << 8) + 0x3d :
+                (LOAD_TEMP(11) >= 70) ? (1 << 16) + (0x78 << 8) + 0x34 :
+                (LOAD_TEMP(11) >= 60) ? (1 << 16) + (0xa0 << 8) + 0x25 :
+                (LOAD_TEMP(11) >= 50) ? (1 << 16) + (0xbc << 8) + 0x1a :
+                (LOAD_TEMP(11) >= 40) ? (2 << 16) + (0x94 << 8) + 0x29 :
+                                        (2 << 16) + (0x66 << 8) + 0x3c
+            ), 11
+        ),
+        STORE_TEMP(
+            LOAD_TEMP(8) != 0 ? (
+                (LOAD_TEMP(12) >= 90) ? (1 << 16) + (0xae << 8) + 0x1f :
+                (LOAD_TEMP(12) >= 80) ? (1 << 16) + (0xb8 << 8) + 0x1b :
+                (LOAD_TEMP(12) >= 70) ? (1 << 16) + (0xc3 << 8) + 0x17 :
+                (LOAD_TEMP(12) >= 60) ? (1 << 16) + (0xcf << 8) + 0x12 :
+                (LOAD_TEMP(12) >= 50) ? (0 << 16) + (0x99 << 8) + 0x64 :
+                (LOAD_TEMP(12) >= 40) ? (2 << 16) + (0x89 << 8) + 0x2e :
+                                        (2 << 16) + (0x55 << 8) + 0x42
+            ) : (
+                (LOAD_TEMP(12) >= 90) ? (1 << 16) + (0x3f << 8) + 0x4b :
+                (LOAD_TEMP(12) >= 80) ? (1 << 16) + (0x63 << 8) + 0x3d :
+                (LOAD_TEMP(12) >= 70) ? (1 << 16) + (0x78 << 8) + 0x34 :
+                (LOAD_TEMP(12) >= 60) ? (1 << 16) + (0xa0 << 8) + 0x25 :
+                (LOAD_TEMP(12) >= 50) ? (1 << 16) + (0xbc << 8) + 0x1a :
+                (LOAD_TEMP(12) >= 40) ? (2 << 16) + (0x94 << 8) + 0x29 :
+                                        (2 << 16) + (0x66 << 8) + 0x3c
+            ), 12
+        ),
+
+
+
+        // =========================================
+        // === New production amount for cargo 1 ===
+        // =========================================
+
+        STORE_TEMP((LOAD_TEMP(11) & 0x00ff0000) >> 16, 13), // trend direction
+        STORE_TEMP((LOAD_TEMP(11) & 0x0000ff00) >> 8, 14), // stay probability
+        STORE_TEMP(LOAD_TEMP(11) & 0x000000ff, 15), // magnitude of change
+        // calculating chnage
+        STORE_TEMP(
+            ((LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) /
+            (((LOAD_TEMP(13) == 0) || (LOAD_TEMP(10) > 0x7f)) ? 20 : 10)) *
+            ((LOAD_TEMP(9) > LOAD_TEMP(14)) ?
+                ((LOAD_TEMP(8) == 0 ? 100 : LOAD_TEMP(8)) * LOAD_TEMP(15)) / 100 :
+                0
+            )) /
+            100,
             11
         ),
-
+        // applying the change
         STORE_TEMP(
-            LOAD_TEMP(10) >= 80 ? (LOAD_TEMP(8) == 1 ? 10 :  2) :
-            LOAD_TEMP(10) >= 70 ? (LOAD_TEMP(8) == 1 ?  8 :  2) :
-            LOAD_TEMP(10) >= 60 ? (LOAD_TEMP(8) == 1 ? 10 :  5) :
-            LOAD_TEMP(10) >= 50 ? (LOAD_TEMP(8) == 1 ?  5 :  5) :
-            LOAD_TEMP(10) >= 40 ? (LOAD_TEMP(8) == 1 ?  6 :  9) :
-                                  (LOAD_TEMP(8) == 1 ?  5 : 10),
-            10
-        ),
-
-        STORE_TEMP(
-            LOAD_TEMP(11) >= 80 ? (LOAD_TEMP(8) == 1 ? 10 :  2) :
-            LOAD_TEMP(11) >= 70 ? (LOAD_TEMP(8) == 1 ?  8 :  2) :
-            LOAD_TEMP(11) >= 60 ? (LOAD_TEMP(8) == 1 ? 10 :  5) :
-            LOAD_TEMP(11) >= 50 ? (LOAD_TEMP(8) == 1 ?  5 :  5) :
-            LOAD_TEMP(11) >= 40 ? (LOAD_TEMP(8) == 1 ?  6 :  9) :
-                                  (LOAD_TEMP(8) == 1 ?  5 : 10),
+            (LOAD_TEMP(13) == 2) || ((LOAD_TEMP(13) == 0) && (LOAD_TEMP(10) > 0x7f)) ? (
+                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) - LOAD_TEMP(11)
+            ) : (
+                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) + LOAD_TEMP(11)
+            ),
             11
         ),
-
-        STORE_TEMP(
-            LOAD_TEMP(8) == 1 ? (LOAD_TEMP(10) * LOAD_TEMP(9)) / 100 : LOAD_TEMP(10),
-            10
-        ),
-
-        STORE_TEMP(
-            LOAD_TEMP(8) == 1 ? (LOAD_TEMP(11) * LOAD_TEMP(9)) / 100 : LOAD_TEMP(11),
-            11
-        ),
-
-        STORE_TEMP(
-            (random_bits % 100) >= 49 ? LOAD_TEMP(10) : LOAD_TEMP(10) / 2,
-            10
-        ),
-
-        STORE_TEMP(
-            (random_bits % 100) >= 49 ? LOAD_TEMP(11) : LOAD_TEMP(11) / 2,
-            10
-        ),
-
-        STORE_TEMP(
-            (LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) * LOAD_TEMP(10)) / 100,
-            10
-        ),
-
-        STORE_TEMP(
-            (LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) * LOAD_TEMP(11)) / 100,
-            11
-        ),
-
-        STORE_TEMP(
-            LOAD_TEMP(8) == 1 ? LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) + LOAD_TEMP(10) :
-                                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) - LOAD_TEMP(10),
-            10
-        ),
-
-        STORE_TEMP(
-            LOAD_TEMP(8) == 1 ? LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) + LOAD_TEMP(11) :
-                                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) - LOAD_TEMP(11),
-            11
-        ),
-
+        // setting boundaries for a value
         STORE_PERM(
-            LOAD_TEMP(10) <= 85 ? 85 : (LOAD_TEMP(10) >= 10000 ? 10000 : LOAD_TEMP(10)),
+            LOAD_TEMP(11) <= 80 ? 80 : (LOAD_TEMP(11) >= 10000 ? 10000 : LOAD_TEMP(11)),
             ${perm_storage.var_current_supplies_prod_factor_1}
         ),
 
+
+
+        // =========================================
+        // === New production amount for cargo 2 ===
+        // =========================================
+
+        STORE_TEMP((LOAD_TEMP(12) & 0x00ff0000) >> 16, 13), // trend direction
+        STORE_TEMP((LOAD_TEMP(12) & 0x0000ff00) >> 8, 14), // stay probability
+        STORE_TEMP(LOAD_TEMP(12) & 0x000000ff, 15), // magnitude of change
+        // calculating chnage
+        STORE_TEMP(
+            ((LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) /
+            (((LOAD_TEMP(13) == 0) || (LOAD_TEMP(10) > 0x7f)) ? 20 : 10)) *
+            ((LOAD_TEMP(9) > LOAD_TEMP(14)) ?
+                ((LOAD_TEMP(8) == 0 ? 100 : LOAD_TEMP(8)) * LOAD_TEMP(15)) / 100 :
+                0
+            )) /
+            100,
+            12
+        ),
+        // applying the change
+        STORE_TEMP(
+            (LOAD_TEMP(13) == 2) || ((LOAD_TEMP(13) == 0) && (LOAD_TEMP(10) > 0x7f)) ? (
+                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) - LOAD_TEMP(12)
+            ) : (
+                LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) + LOAD_TEMP(12)
+            ),
+            12
+        ),
+        // setting boundaries for a value
         STORE_PERM(
-            LOAD_TEMP(11) <= 85 ? 85 : (LOAD_TEMP(11) >= 10000 ? 10000 : LOAD_TEMP(11)),
+            LOAD_TEMP(12) <= 80 ? 80 : (LOAD_TEMP(12) >= 10000 ? 10000 : LOAD_TEMP(12)),
             ${perm_storage.var_current_supplies_prod_factor_2}
         ),
+
+
+
+        // ==============================================
+        // === updating history of delivered supplies ===
+        // ==============================================
 
         STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}), ${perm_storage.var_num_supplies_delivered_bef_last}),
         STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered}), ${perm_storage.var_num_supplies_delivered_last}),

@@ -7,15 +7,15 @@
         ${industry.id}_production;
     }
 
-    produce(${industry.id}_production_256, 0, 0, 0, (LOAD_TEMP(8) * production_rate_1) / 100, (LOAD_TEMP(9) * production_rate_2) / 100, 0);
+    produce(${industry.id}_production_256, 0, 0, 0, LOAD_TEMP(8), LOAD_TEMP(9), 0);
 
     switch(
         FEAT_INDUSTRIES,
         SELF,
         ${industry.id}_produce_256_ticks,
         [
-            STORE_TEMP(LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}), 8),
-            STORE_TEMP(LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}), 9)
+            STORE_TEMP(LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_1}) / 20, 8),
+            STORE_TEMP(LOAD_PERM(${perm_storage.var_current_supplies_prod_factor_2}) / 20, 9)
         ]) {
         ${industry.id}_production_256;
     }
