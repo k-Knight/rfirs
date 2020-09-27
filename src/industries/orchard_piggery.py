@@ -11,7 +11,7 @@ industry = IndustryPrimaryOrganic(id='orchard_piggery',
                                   prod_cargo_types=['FRUT', 'LVST'],
                                   nearby_station_name='string(STR_STATION_ORCHARDS)',
                                   fund_cost_multiplier='54',
-                                  prod_multiplier='[9, 8]',
+                                  prod_multiplier='[3, 2]',
                                   override_default_construction_states=True)
 
 industry.economy_variations['BASIC_TEMPERATE'].enabled = True

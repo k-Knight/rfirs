@@ -7,7 +7,7 @@ industry = IndustryPrimaryExtractive(id='iron_ore_mine',
                                      prospect_chance='0.75',
                                      name='TTD_STR_INDUSTRY_NAME_IRON_ORE_MINE',
                                      location_checks=dict(cluster=[70, 3]),
-                                     prod_multiplier='[20]',
+                                     prod_multiplier='[5]',
                                      prod_cargo_types=['IORE'],
                                      nearby_station_name='string(STR_STATION_IRONSTONE)',
                                      fund_cost_multiplier='232')
