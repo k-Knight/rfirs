@@ -20,7 +20,7 @@
         STORE_TEMP(randomise_primary_production_on_build() * 20, 8),
 
         STORE_PERM(LOAD_TEMP(8), ${perm_storage.var_current_supplies_prod_factor_1}),
-        STORE_PERM(1000, ${perm_storage.var_current_supplies_prod_factor_2})
+        STORE_PERM(LOAD_TEMP(8), ${perm_storage.var_current_supplies_prod_factor_2})
     ]) {
         return 4;
     }
@@ -73,30 +73,18 @@
             12
         ),
 
-        //STORE_TEMP(
-        //    max(LOAD_TEMP(11) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_1})),
-        //    11
-        //),
-        //STORE_TEMP(
-        //    max(LOAD_TEMP(12) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_2})),
-        //    12
-        //),
         STORE_TEMP(
-            90,
+            max(LOAD_TEMP(11) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_1})),
             11
         ),
-        //STORE_TEMP(
-        //    max(LOAD_TEMP(12) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_2})),
-        //    12
-        //),
         STORE_TEMP(
-            90,
+            max(LOAD_TEMP(12) / 3, LOAD_PERM(${perm_storage.var_transported_p_month_2})),
             12
         ),
 
         // getting proportions of positive/negative/stay changes to caculate probabilities
         STORE_TEMP(
-            LOAD_TEMP(8) != 0 ? (
+            LOAD_TEMP(8) == 0 ? (
                 (LOAD_TEMP(11) >= 90) ? (1 << 16) + (0xae << 8) + 0x1f :
                 (LOAD_TEMP(11) >= 80) ? (1 << 16) + (0xb8 << 8) + 0x1b :
                 (LOAD_TEMP(11) >= 70) ? (1 << 16) + (0xc3 << 8) + 0x17 :
@@ -115,7 +103,7 @@
             ), 11
         ),
         STORE_TEMP(
-            LOAD_TEMP(8) != 0 ? (
+            LOAD_TEMP(8) == 0 ? (
                 (LOAD_TEMP(12) >= 90) ? (1 << 16) + (0xae << 8) + 0x1f :
                 (LOAD_TEMP(12) >= 80) ? (1 << 16) + (0xb8 << 8) + 0x1b :
                 (LOAD_TEMP(12) >= 70) ? (1 << 16) + (0xc3 << 8) + 0x17 :
@@ -165,7 +153,7 @@
         ),
         // setting boundaries for a value
         STORE_PERM(
-            LOAD_TEMP(11) <= 80 ? 80 : (LOAD_TEMP(11) >= 10000 ? 10000 : LOAD_TEMP(11)),
+            LOAD_TEMP(11) <= 120 ? 120 : (LOAD_TEMP(11) >= 25000 ? 25000 : LOAD_TEMP(11)),
             ${perm_storage.var_current_supplies_prod_factor_1}
         ),
 
@@ -200,7 +188,7 @@
         ),
         // setting boundaries for a value
         STORE_PERM(
-            LOAD_TEMP(12) <= 80 ? 80 : (LOAD_TEMP(12) >= 10000 ? 10000 : LOAD_TEMP(12)),
+            LOAD_TEMP(12) <= 120 ? 120 : (LOAD_TEMP(12) >= 25000 ? 25000 : LOAD_TEMP(12)),
             ${perm_storage.var_current_supplies_prod_factor_2}
         ),
 
