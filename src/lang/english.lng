@@ -14,12 +14,12 @@ STR_PARAM_NAME_NO_OPENINGS                                                      
 STR_PARAM_NAME_SECONDARY_NEVER_CLOSE                                            :Allow secondary industries to close
 STR_PARAM_VALUE_SECONDARY_NEVER_CLOSE_0                                         :No limit
 
-STR_PARAM_NAME_PRIMARY_LEVEL1_REQUIREMENT                                       :Supply crates required for Enhanced primary production increase rate (default 128)
+STR_PARAM_NAME_PRIMARY_LEVEL1_REQUIREMENT                                       :Supply crates required for Normal primary production increase rate (default 128)
 STR_PARAM_NAME_PRIMARY_LEVEL2_REQUIREMENT                                       :Supply crates required for Accelerated primary production increase rate (default 384)
-STR_PARAM_DESC_PRIMARY_LEVEL_REQUIREMENT                                        :Farms, mines and similar industries will improve production increase rate when supply crates are delivered, first to {SILVER}Enhanced{BLACK}, and then to {SILVER}Accelerated{BLACK}, if enough crates are delivered.  {}{}The default values are good, but if you need to, you can change them here.  {}{}Cargo requirements for port-type industries will be 4x the values set here.
+STR_PARAM_DESC_PRIMARY_LEVEL_REQUIREMENT                                        :Farms, mines and similar industries will improve production increase rate when supply crates are delivered, first to {SILVER}Normal{BLACK}, and then to {SILVER}Accelerated{BLACK}, if enough crates are delivered.  {}{}The default values are good, but if you need to, you can change them here.  {}{}Cargo requirements for port-type industries will be 4x the values set here.
 STR_PARAM_NAME_PRIMARY_LEVEL1_BONUS                                             :Normal primary production increase rate
 STR_PARAM_NAME_PRIMARY_LEVEL2_BONUS                                             :Accelerated primary production increase rate
-STR_PARAM_DESC_PRIMARY_LEVEL_BONUS                                              :Production at farms, mines and similar industries when supply requirements are met (as percentage of {SILVER}Normal {BLACK}production level).
+STR_PARAM_DESC_PRIMARY_LEVEL_BONUS                                              :Production increase rate is enhanced at farms, mines and similar industries when supply requirements are met.
 
 STR_PARAM_VALUE_ECONOMIES_BASIC_TEMPERATE                                       :Temperate Basic
 STR_PARAM_VALUE_ECONOMIES_BASIC_ARCTIC                                          :Arctic Basic
