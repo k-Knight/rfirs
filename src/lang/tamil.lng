@@ -1,7 +1,7 @@
 ##grflangid 0x0a
 ##plural 0
 
-STR_GRF_URL                                                                     :http://bundles.openttdcoop.org/firs/releases/LATEST/docs/
+STR_GRF_URL                                                                     :https://github.com/k-Knight/rfirs/
 
 STR_PARAM_NAME_ECONOMIES                                                        :பொருளாதாரம்
 

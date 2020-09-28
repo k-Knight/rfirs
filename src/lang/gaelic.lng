@@ -3,7 +3,7 @@
 ##gender m f
 ##case dat gen nom voc
 
-STR_GRF_URL                                                                     :http://bundles.openttdcoop.org/firs/releases/LATEST/docs/
+STR_GRF_URL                                                                     :https://github.com/k-Knight/rfirs/
 
 STR_PARAM_NAME_ECONOMIES                                                        :Eaconamaidh
 STR_PARAM_VALUE_SECONDARY_NEVER_CLOSE_0                                         :Gun chuingeachadh

@@ -4,7 +4,7 @@
 ##case acc nom pre f abl m n dat p gen
 
 STR_GRF_DESC                                                                    :{ORANGE}Набор FIRS для поўнай замены прадпрыемстваў{}{BLACK}Спецыяльна для вас ад andythenorth, FooBar, planetmaker, Terkhen и Yexo, з дапамогай многіх іншых. {SILVER}Падрабязную інфармацыю, уключаючы тое, як карыстацца FIRS, глядзіце ў ReadMe. {BLACK}Ліцэнзія: GPL v2.
-STR_GRF_URL                                                                     :http://bundles.openttdcoop.org/firs/releases/LATEST/docs/
+STR_GRF_URL                                                                     :https://github.com/k-Knight/rfirs/
 
 STR_PARAM_DESC_COAST_DISTANCE_MARINE_INDUSTRY                                   :Максімальная адлегласць месц лоўлі рыбы, нафтавых вышак і участкаў паглыблення дна ад берага, у клетках
 STR_PARAM_DESC_ECONOMIES                                                        :Кожная эканоміка прадстаўляе розную камбінацыю грузаў і прадпрыемстваў.{}{}Для гульцоў, якія жадаюць простую эканоміку, {SILVER}звычайная {BLACK}эканоміка змяшчае меней прадпрыемстваў і грузаў, чым іншыя эканомікі FIRS.{}{} Веб-сайт FIRS прадугледжвае дэтальную інфармацыю пра кожную эканоміку.

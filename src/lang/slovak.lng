@@ -4,7 +4,7 @@
 ##case g
 
 STR_GRF_DESC                                                                    :{ORANGE}FIRS Industry Replacement Set{}{BLACK}Vám prináša andythenorth, FooBar, planetmaker, Terkhen, Yexo a ďalší. {SILVER}Pozri ReadMe pre viac informácií, vrátane ako použiť FIRS. {BLACK}Licencia: GPL v2.
-STR_GRF_URL                                                                     :http://bundles.openttdcoop.org/firs/releases/LATEST/docs/
+STR_GRF_URL                                                                     :https://github.com/k-Knight/rfirs/
 
 STR_PARAM_DESC_COAST_DISTANCE_MARINE_INDUSTRY                                   :Maximálna vzdialenosť lovísk rýb, ropných plošín a bagrovísk od pobrežia v dielcoch.
 STR_PARAM_DESC_ECONOMIES                                                        :Každá ekonomika poskytuje rôzne kombinácie tovaru a priemyslu.{}{}Pre hráčov, ktorý chcú jednoduchšiu hrateľnosť, 'Základná' ekonomika obsahuje menej priemyslu a tovaru ako ostatné FIRS ekonomiky.
