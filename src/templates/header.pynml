@@ -80,7 +80,7 @@ grf {
 		primary_level2_requirement {
 			name: string(STR_PARAM_NAME_PRIMARY_LEVEL2_REQUIREMENT);
 			desc: string(STR_PARAM_DESC_PRIMARY_LEVEL_REQUIREMENT);
-			def_value: ${5 * global_constants.FARM_MINE_SUPPLY_REQUIREMENT};
+			def_value: ${3 * global_constants.FARM_MINE_SUPPLY_REQUIREMENT};
 			min_value: 1;
 			max_value: 10000;
 		}

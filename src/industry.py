@@ -1053,14 +1053,14 @@ class IndustryPrimary(Industry):
                                                  'var_num_supplies_delivered_bef_last',
                                                  'var_current_supplies_prod_factor_1',
                                                  'var_current_supplies_prod_factor_2',
-                                                 'var_last_month_transported_1',
-                                                 'var_last_month_transported_2',
                                                  'var_transported_p_month_1',
                                                  'var_transported_pp_month_1',
                                                  'var_transported_ppp_month_1',
                                                  'var_transported_p_month_2',
                                                  'var_transported_pp_month_2',
                                                  'var_transported_ppp_month_2',
+                                                 'unused',
+                                                 'unused',
                                                  'unused',
                                                  'unused',
                                                  'unused'])
@@ -1098,7 +1098,7 @@ class IndustryPrimaryPort(IndustryPrimary):
     def __init__(self, **kwargs):
         kwargs['life_type'] = 'IND_LIFE_TYPE_BLACK_HOLE'
         super().__init__(**kwargs)
-        self.supply_requirements = [0, 'PORT', 8] # janky use of a un-named list for historical reasons (2nd item is string prefix, 3rd is multiplier of requirements parameters)
+        self.supply_requirements = [0, 'PORT', 4] # janky use of a un-named list for historical reasons (2nd item is string prefix, 3rd is multiplier of requirements parameters)
 
 
 class IndustryPrimaryNoSupplies(Industry):

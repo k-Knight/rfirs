@@ -228,7 +228,7 @@ graphics_path =  'generated/graphics/'
 max_game_date = 5000000
 
 # amount of cargo required to trigger 'enhanced' production at primary industries
-FARM_MINE_SUPPLY_REQUIREMENT = 16
+FARM_MINE_SUPPLY_REQUIREMENT = 128
 
 # time window (days) for delivery of combinatory cargos to secondary industries
 secondary_production_span = 90

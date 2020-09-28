@@ -14,13 +14,13 @@ MK_ARCHIVE = bin/mk-archive
 
 
 # Project details
-PROJECT_NAME = firs
+PROJECT_NAME = rfirs
 
 # graphics is not copied to generated currently in FIRS, unlike RH, IH etc - could be changed
 GRAPHICS_DIR = src/graphics
 # lang is not copied to generated currently in FIRS, unlike RH, IH etc - could be changed
 LANG_DIR = generated/lang
-NML_FILE = generated/firs.nml
+NML_FILE = generated/rfirs.nml
 NML_FLAGS =-c -l $(LANG_DIR)
 
 EXPORTED = no
