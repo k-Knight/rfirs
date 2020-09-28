@@ -26,9 +26,9 @@ NML_FLAGS =-c -l $(LANG_DIR)
 EXPORTED = no
 ifeq ($(strip $(EXPORTED)),no)
   # Not exported source, therefore regular checkout
-  REPO_INFO = $(shell $(GIT_INFO) --num-id --version)
-  REPO_REVISION = $(word 1,$(REPO_INFO))
-  REPO_VERSION = $(word 2,$(REPO_INFO))
+  REPO_TAG = $(shell git describe --tags)
+  REPO_REVISION = 1
+  REPO_VERSION = $(REPO_TAG)
 else
   # Exported version, lines below should get modified in 'bundle_src' target
   REPO_REVISION = ${exported_revision}
