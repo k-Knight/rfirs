@@ -37,7 +37,7 @@ STR_IND_POWER_PLANT                                                             
 STR_IND_TYRE_PLANT                                                              :Tire Plant
 
 
-STR_PORT_PRODUCTION_1X                                                          :{BLACK}Current production increase rate: {YELLOW}Slow{}{}{BLACK}For {WHITE}Normal {BLACK}rate deliver {SIGNED_WORD} units of cargo within three months{}For {WHITE}Accelerated {BLACK}rate deliver {SIGNED_WORD} units
+STR_PORT_PRODUCTION_1X                                                          :{BLACK}Current production increase rate: {YELLOW}Slow{}{}{BLACK}For {WHITE}Normal {BLACK}rate deliver {WHITE}{SIGNED_WORD}{BLACK} more units of cargo within three months{}For {WHITE}Accelerated {BLACK}rate deliver {WHITE}{SIGNED_WORD}{BLACK} more units.
 
 STR_FUND_FOREST                                                                 :{}{BLACK}Location: {YELLOW}Cannot be funded in deserts.
 

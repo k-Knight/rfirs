@@ -45,13 +45,24 @@
 
 
         // ==============================================
+        // === updating history of delivered supplies ===
+        // ==============================================
+
+        STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_last}), ${perm_storage.var_num_supplies_delivered_bef_bef_last}),
+        STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}), ${perm_storage.var_num_supplies_delivered_bef_last}),
+        STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered}), ${perm_storage.var_num_supplies_delivered_last}),
+        STORE_PERM(0, ${perm_storage.var_num_supplies_delivered}),
+
+
+
+        // ==============================================
         // === determinign appropriate growth thrends ===
         // ==============================================
 
         STORE_TEMP(
-            LOAD_PERM(${perm_storage.var_num_supplies_delivered}) +
             LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}) +
-            LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_last}),
+            LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_last}) +
+            LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_bef_last}),
             8
         ),
         STORE_TEMP(
@@ -190,17 +201,7 @@
         STORE_PERM(
             LOAD_TEMP(12) <= 120 ? 120 : (LOAD_TEMP(12) >= 25000 ? 25000 : LOAD_TEMP(12)),
             ${perm_storage.var_current_supplies_prod_factor_2}
-        ),
-
-
-
-        // ==============================================
-        // === updating history of delivered supplies ===
-        // ==============================================
-
-        STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}), ${perm_storage.var_num_supplies_delivered_bef_last}),
-        STORE_PERM(LOAD_PERM(${perm_storage.var_num_supplies_delivered}), ${perm_storage.var_num_supplies_delivered_last}),
-        STORE_PERM(0, ${perm_storage.var_num_supplies_delivered})
+        )
     ]) {
         return CB_RESULT_IND_PROD_NO_CHANGE;
     }

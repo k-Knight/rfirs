@@ -2,16 +2,32 @@
 
 <tal:block define="perm_storage industry.perm_storage">
     switch(FEAT_INDUSTRIES, SELF, ${industry.id}_extra_text, [
-        STORE_TEMP((primary_level1_requirement * ${industry.supply_requirements[2]}) |
-        (primary_level2_requirement * ${industry.supply_requirements[2]}) << 16, 0x100),
         STORE_TEMP(
-            LOAD_PERM(${perm_storage.var_num_supplies_delivered}) +
             LOAD_PERM(${perm_storage.var_num_supplies_delivered_last}) +
-            LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_last}),
+            LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_last}) +
+            LOAD_PERM(${perm_storage.var_num_supplies_delivered_bef_bef_last}),
+            8
+        ),
+        STORE_TEMP(
+            (LOAD_TEMP(8) >= (${industry.supply_requirements[2]} * primary_level2_requirement)) ? 2 :
+            (LOAD_TEMP(8) >= (${industry.supply_requirements[2]} * primary_level1_requirement)) ? 1 : 0,
             9
         ),
-        (LOAD_TEMP(9) >= (${industry.supply_requirements[2]} * primary_level2_requirement)) ? 2 :
-        (LOAD_TEMP(9) >= (${industry.supply_requirements[2]} * primary_level1_requirement)) ? 1 : 0
+        STORE_TEMP(
+            (LOAD_TEMP(9) == 2) ? (
+                (${industry.supply_requirements[2]} * primary_level1_requirement) |
+                (${industry.supply_requirements[2]} * primary_level2_requirement) << 16
+            ) :
+            (LOAD_TEMP(9) == 1) ? (
+                (${industry.supply_requirements[2]} * primary_level1_requirement) |
+                ( (${industry.supply_requirements[2]} * primary_level2_requirement) - LOAD_TEMP(8)) << 16
+            ) : (
+                ( (${industry.supply_requirements[2]} * primary_level1_requirement) - LOAD_TEMP(8)) |
+                ( (${industry.supply_requirements[2]} * primary_level2_requirement) - LOAD_TEMP(8)) << 16
+            ),
+            0x100
+        ),
+        LOAD_TEMP(9)
     ]) {
     	2: return string(STR_${industry.supply_requirements[1]}_PRODUCTION_4X);
     	1: return string(STR_${industry.supply_requirements[1]}_PRODUCTION_2X);
