@@ -2,6 +2,49 @@ Changelog
 =========
 
 --------------
+r1.0.2 Release
+--------------
+
+*Codechange*
+
+- configuration, readme, compatibility and makefile changes
+- added license file to the root directory
+- grfid change
+
+*Fix*
+
+- fixed string name in russian translation
+
+--------------
+r1.0.1 Release
+--------------
+
+*Changes*
+
+- minor balancing to industry production growth mechanics
+
+*Translations*
+
+- updated
+
+--------------
+r1.0.0 Release
+--------------
+
+*Changes*
+
+- changed industry growth mechanics so that the production will grow over time
+- some balancing changes related to industry production
+
+*Codechange*
+
+- configuration and makefile changes
+
+*Translations*
+
+- updated russian and english translations to accurately describe new production growth mechanics
+
+--------------
 3.0.12 Release
 --------------
 

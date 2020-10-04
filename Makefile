@@ -24,16 +24,10 @@ NML_FILE = generated/rfirs.nml
 NML_FLAGS =-c -l $(LANG_DIR)
 
 EXPORTED = no
-ifeq ($(strip $(EXPORTED)),no)
-  # Not exported source, therefore regular checkout
-  REPO_TAG = $(shell git describe --tags)
-  REPO_REVISION = 1
-  REPO_VERSION = $(REPO_TAG)
-else
-  # Exported version, lines below should get modified in 'bundle_src' target
-  REPO_REVISION = ${exported_revision}
-  REPO_VERSION = ${exported_version}
-endif
+# Not exported source, therefore regular checkout
+REPO_TAG = $(shell git describe --tags)
+REPO_REVISION = 1
+REPO_VERSION = $(REPO_TAG)
 
 REPO_TITLE = "$(PROJECT_NAME) $(REPO_VERSION)"
 PROJECT_VERSIONED_NAME = $(PROJECT_NAME)-$(REPO_VERSION)

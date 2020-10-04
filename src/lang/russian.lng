@@ -17,7 +17,7 @@ STR_PARAM_NAME_SECONDARY_NEVER_CLOSE                                            
 STR_PARAM_VALUE_SECONDARY_NEVER_CLOSE_0                                         :без ограничений
 
 STR_PARAM_NAME_PRIMARY_LEVEL1_REQUIREMENT                                       :Для Нормального роста производства требуються ящики материалов (128 по умолчанию)
-STR_PARAM_NAME_PRIMARY_LEVEL1_REQUIREMENT                                       :Для Ускоренного роста производства требуються ящики материалов (384 по умолчанию)
+STR_PARAM_NAME_PRIMARY_LEVEL2_REQUIREMENT                                       :Для Ускоренного роста производства требуються ящики материалов (384 по умолчанию)
 STR_PARAM_DESC_PRIMARY_LEVEL_REQUIREMENT                                        :Производство будет расти у хозяйства, шахты и подобные предприятия будут увеличивать рост производства если будут поставляться ящики материалы, сначала до {SILVER}Нормального{BLACK}, а затем до {SILVER}Ускоренного{BLACK}, при достаточных поставках.  {}{}Требования для предприятий портового типа будут в 8 раз больше, чем установленные виличины.
 STR_PARAM_NAME_PRIMARY_LEVEL1_BONUS                                             :Нормальный рост производства
 STR_PARAM_NAME_PRIMARY_LEVEL2_BONUS                                             :Ускоренный рост производства

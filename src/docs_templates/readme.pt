@@ -1,22 +1,22 @@
 ====================================
-FIRS Industry Replacement Set ${repo_vars.repo_version}
+Retarded FIRS Industry Replacement Set ${repo_vars.repo_version}
 ====================================
 New Industries and Cargos for OpenTTD
 
-FIRS docs are published online:
+RFIRS docs are published online:
   http://bundles.openttdcoop.org/firs/releases/LATEST/docs
 
 =======
-GRF Name : FIRS Industry Replacement Set
+GRF Name : Retarded FIRS Industry Replacement Set
 
-This version of FIRS is created using repository version ${repo_vars.repo_version}
+This version of RFIRS is created using repository version ${repo_vars.repo_version}
 
-Thanks to *all* who helped create FIRS.
+Thanks to *all* who helped create RFIRS.
 
 ------------
-FIRS License
+RFIRS License
 ------------
-FIRS Industry Replacement Set - Full industry replacement set for OpenTTD
+Retarded FIRS Industry Replacement Set - Full industry replacement set for OpenTTD
 Copyright (C) andythenorth, and others.
 
 Licensed under GPL(v2)
